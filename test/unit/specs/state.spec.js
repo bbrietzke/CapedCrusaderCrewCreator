@@ -17,7 +17,7 @@ describe('Affiliations', () => {
 
   it('should be able to change affiliations', () => {
     const joker = src[7]
-    
+
     expect(affiliationsModule.getters.with(state).name).string('Brave')
     affiliationsModule.mutations.changeToAffiliation(state, joker)
     expect(affiliationsModule.getters.with(state).name).string(joker.name)
