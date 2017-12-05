@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div id="buildCrew">
     <Setup />
     <ul>
     </ul>
@@ -11,7 +11,7 @@ import Setup from '@/components/Setup'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Home',
+  name: 'BuildCrew',
   components: { Setup },
   computed: {
     current: {

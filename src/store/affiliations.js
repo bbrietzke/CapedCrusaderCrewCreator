@@ -3,7 +3,7 @@ import { filterOnlyId } from '@/store/filters'
 const src = [
   { 'id': 'amaz', 'name': 'Amazons of Themyscira' },
   { 'id': 'bane', 'name': 'Bane' },
-  { 'id': 'bold', 'name': 'Brave & the Bold' },
+  { 'id': 'bold', 'name': 'Brave and the Bold' },
   { 'id': 'cent', 'name': 'Central City Villains' },
   { 'id': 'owls', 'name': 'Court of Owls' },
   { 'id': 'sirn', 'name': 'Gotham City Sirens' },

@@ -1,22 +1,17 @@
 <template>
-  <div id="setup">
+  <div id="setup" class="pure-form">
     <h3>Crew Setup</h3>
-    <ul>
-      <li>
-        Affiliated With
-        <select v-model="current">
-          <option v-for="affiliation in all" v-bind:value="affiliation.id">{{ affiliation.name }}</option>
-        </select>
-      </li>
-      <li>
-        Reputation Limit:
-        <input type="number" name="repLimit" min="0" max="500" list="commonCrewSizes" />
-      </li>
-    </ul>
+    <select v-model="current" autofocus>
+      <option selected disabled>Choose Affiliation</option>
+      <option v-for="affiliation in all" v-bind:value="affiliation.id">{{ affiliation.name }}</option>
+    </select>
+    <input type="number" name="repLimit" min="0" max="500" list="commonCrewSizes" placeholder="Reputation Limit" />
+    <button type="button" class="pure-button pure-button-primary">Start!</button>
     <datalist id="commonCrewSizes">
-      <option value="150"></option>
-      <option value="250"></option>
-      <option value="350"></option>
+      <option value="150">Quick</option>
+      <option value="250">Small</option>
+      <option value="350">Normal</option>
+      <option value="450">Large</option>
     </datalist>
   </div>
 </template>
@@ -51,6 +46,9 @@ export default {
 <style scoped>
 #setup {
 }
+label {
+  label { float: left; width: 10em; margin-right: 1em; }
+}
 h1, h2 {
   font-weight: normal;
 }
@@ -61,14 +59,13 @@ ul {
 }
 
 li {
-  display: inline-block;
-  margin: 0 10px;
+  margin: 10px;
 }
 
 a {
   color: #42b983;
 }
 input[type="number"] {
-  width: 100px;
+  width: 200px;
 }
 </style>
