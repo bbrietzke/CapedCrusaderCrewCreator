@@ -1,20 +1,20 @@
 import { filterOnlyId } from '@/store/filters'
 
 const src = [
-  { 'id': 'amaz', 'name': 'Amazon of Themyscira' },
-  { 'id': 'unkn', 'name': 'Unknown' },
+  { 'id': 'amaz', 'name': 'Amazons of Themyscira' },
   { 'id': 'bane', 'name': 'Bane' },
-  { 'id': 'bold', 'name': 'Brave & the Bold' },
+  { 'id': 'bold', 'name': 'Brave and the Bold' },
   { 'id': 'cent', 'name': 'Central City Villains' },
   { 'id': 'owls', 'name': 'Court of Owls' },
   { 'id': 'sirn', 'name': 'Gotham City Sirens' },
   { 'id': 'joke', 'name': 'Joker' },
   { 'id': 'leag', 'name': 'League of Assassins' },
-  { 'id': 'frez', 'name': 'Mr. Freeze' },
   { 'id': 'mili', 'name': 'Militia' },
-  { 'id': 'crim', 'name': 'Organized Crime' },
+  { 'id': 'frez', 'name': 'Mr. Freeze' },
   { 'id': 'peng', 'name': 'Penguin' },
-  { 'id': 'ridd', 'name': 'Riddler' }
+  { 'id': 'crim', 'name': 'Organized Crime' },
+  { 'id': 'ridd', 'name': 'Riddler' },
+  { 'id': 'unkn', 'name': 'Unknown' }
 ]
 
 const affiliationsModule = {
@@ -24,7 +24,7 @@ const affiliationsModule = {
   },
   mutations: {
     changeToAffiliation (state, value) {
-      state._affiliation = value.id
+      state._affiliation = value
     }
   },
   actions: {
