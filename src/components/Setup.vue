@@ -1,18 +1,31 @@
 <template>
-  <div id="home">
-    <Setup />
+  <div id="setup">
+    <h3>Crew Setup</h3>
     <ul>
+      <li>
+        Affiliated With
+        <select v-model="current">
+          <option v-for="affiliation in all" v-bind:value="affiliation.id">{{ affiliation.name }}</option>
+        </select>
+      </li>
+      <li>
+        Reputation Limit:
+        <input type="number" name="repLimit" min="0" max="500" list="commonCrewSizes" />
+      </li>
     </ul>
+    <datalist id="commonCrewSizes">
+      <option value="150"></option>
+      <option value="250"></option>
+      <option value="350"></option>
+    </datalist>
   </div>
 </template>
 
 <script>
-import Setup from '@/components/Setup'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Home',
-  components: { Setup },
+  name: 'Setup',
   computed: {
     current: {
       get () {
@@ -36,7 +49,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#home {
+#setup {
 }
 h1, h2 {
   font-weight: normal;
