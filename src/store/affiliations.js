@@ -13,8 +13,7 @@ const src = [
   { 'id': 'frez', 'name': 'Mr. Freeze' },
   { 'id': 'peng', 'name': 'Penguin' },
   { 'id': 'crim', 'name': 'Organized Crime' },
-  { 'id': 'ridd', 'name': 'Riddler' },
-  { 'id': 'unkn', 'name': 'Unknown' }
+  { 'id': 'ridd', 'name': 'Riddler' }
 ]
 
 const affiliationsModule = {
