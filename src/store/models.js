@@ -21,6 +21,19 @@ const src = [
   { 'id': '35DC169B1', 'rank': 'sidekick', 'affiliates': ['sirn', 'joker'], 'reputation': 68, 'funding': 300, 'origin': 'Arkham Asylum', 'alias': 'Harley Quinn', 'name': 'Dr. Harleen Frances Quinzel' }
 ]
 
+function sortByName (a, b) {
+  var nameA = a.name.toUpperCase()
+  var nameB = b.name.toUpperCase()
+  if (nameA < nameB) {
+    return -1
+  }
+  if (nameA > nameB) {
+    return 1
+  }
+
+  return 0
+}
+
 function filterRank (rank) {
   self.rank = rank
   return function (obj) {
@@ -41,13 +54,10 @@ const modelsModule = {
   },
   mutations: {
     changeToAffiliation (state, value) {
-      state._models = src.filter(filterAffiliates(value))
+      state._models = src.filter(filterAffiliates(value)).sort(sortByName)
     }
   },
   getters: {
-    models: function (state) {
-      return state._models
-    },
     bosses: function (state) {
       return src.filter(filterRank('leader'))
     },
