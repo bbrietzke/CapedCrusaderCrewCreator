@@ -1,12 +1,12 @@
 <template>
   <div id="setup" class="pure-form">
     <h3>Configure Your Crew</h3>
-    <input type="number" name="repLimit" min="0" max="500" list="commonCrewSizes" placeholder="Reputation Limit" autofocus />
-    <select v-model="bosses">
+    <input type="number" name="repLimit" min="0" max="500" list="commonCrewSizes" placeholder="Reputation Limit" autofocus v-model='reputationLimit' />
+    <select v-model='boss'>
       <option selected disabled>Choose Boss</option>
       <option v-for="boss in leaders" v-bind:value="boss">{{ boss.alias }} ( {{ boss.origin }} )</option>
     </select>
-    <button type="button" class="pure-button pure-button-primary">Start!</button>
+    <button type="button" class="pure-button pure-button-primary" v-on:click='start'>Start!</button>
     <datalist id="commonCrewSizes">
       <option value="150">Quick</option>
       <option value="250">Small</option>
@@ -17,25 +17,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Setup',
-  computed: {
-    bosses: {
-      get () {
-        return this.$store.state.models.bosses
-      },
-      set (boss) {
-        this.$store.commit('changeToAffiliation', boss.affiliates[0])
-      }
+  methods: {
+    start: function (e) {
+      this.change(this.boss.affiliates[0])
+      this.startCrew({'reputationLimit': this.reputationLimit, 'leader': this.boss})
     },
+    ...mapActions(['startCrew', 'change'])
+  },
+  computed: {
     ...mapGetters({
       leaders: 'bosses'
     })
   },
   data () {
     return {
+      boss: null,
+      reputationLimit: 0
     }
   }
 }

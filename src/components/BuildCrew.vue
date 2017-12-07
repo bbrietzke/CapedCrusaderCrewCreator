@@ -1,32 +1,17 @@
 <template>
   <div id="buildCrew">
     <Setup />
-    <ul>
-    </ul>
+    <MemberSelection />
   </div>
 </template>
 
 <script>
 import Setup from '@/components/Setup'
-import { mapGetters } from 'vuex'
+import MemberSelection from '@/components/MemberSelection'
 
 export default {
   name: 'BuildCrew',
-  components: { Setup },
-  computed: {
-    current: {
-      get () {
-        return this.$store.state.affiliates.with
-      },
-      set (v) {
-        this.$store.commit('changeToAffiliation', v)
-      }
-    },
-    ...mapGetters({
-      all: 'all',
-      with: 'with'
-    })
-  },
+  components: { Setup, MemberSelection },
   data () {
     return {
     }
