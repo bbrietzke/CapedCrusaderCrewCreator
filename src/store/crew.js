@@ -1,4 +1,18 @@
 
+function validate (model, currentReputation, currentStash) {
+  return new Promise(function (resolve, reject) {
+    if (model.reputation > currentReputation) {
+      reject(new Error(model.alias + '\'s reputation exceeds currently available reputation'))
+      return
+    }
+    if (model.funding > currentStash) {
+      reject(new Error(model.alias + '\'s funding exceeds currently available stash'))
+      return
+    }
+    resolve(model)
+  })
+}
+
 const crewsModule = {
   state: {
     _reputation: 0,
@@ -7,31 +21,60 @@ const crewsModule = {
     _currentStash: 0,
     _leader: null,
     _sidekick: null,
-    _members: []
+    _members: [],
+    _messages: []
   },
   actions: {
-    startCrew ({commit, state}, {reputationLimit, leader}) {
-      commit('initializeCrew', {reputationLimit, leader})
-      commit('adjustControls', leader)
+    changeReputationTo ({commit, state}, reputationLimit) {
+      commit('changedToReputation', reputationLimit)
     },
     addMember ({commit, state}, member) {
-
+      if (Array.isArray(member)) {
+        for (const m of member) {
+          validate(m, state._currentReputation, state._currentStash).then(function (applicant) {
+            commit('updatedReputationByMember', applicant)
+          }).catch(function (reason) {
+            commit('addMessage', reason.message)
+          })
+        }
+      } else {
+        validate(member, state._currentReputation, state._currentStash).then(function (applicant) {
+          commit('updatedReputationByMember', applicant)
+          if (applicant.rank === 'leader') {
+            commit('addedMemberAsLeader', applicant)
+          }
+        }).catch(function (reason) {
+          commit('addMessage', reason.message)
+        })
+      }
     }
   },
   mutations: {
-    initializeCrew (state, { reputationLimit, leader }) {
-      state._reputation = reputationLimit
-      state._currentReputation = state._reputation
-      state._stash = Math.ceil(reputationLimit / 150) * 500
-      state._currentStash = state._stash
-      state._leader = leader
+    addedMemberAsLeader (state, newMember) {
+      state._leader = newMember
     },
-    adjustControls (state, newMember) {
+    addMessage (state, message) {
+      state._messages.push(message)
+    },
+    clearMessages (state) {
+      state._messages = []
+    },
+    changedToReputation (state, reputationLimit) {
+      state._reputation = parseInt(reputationLimit)
+      state._currentReputation = state._reputation
+      state._stash = Math.ceil(parseInt(reputationLimit) / 150) * 500
+      state._currentStash = state._stash
+    },
+    updatedReputationByMember (state, newMember) {
+      state._members.push(newMember)
       state._currentReputation = (state._currentReputation - newMember.reputation)
       state._currentStash = (state._currentStash - newMember.funding)
     }
   },
   getters: {
+    messages: function (state) {
+      return state._messages
+    },
     reputation: function (state) {
       return state._reputation
     },

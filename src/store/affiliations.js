@@ -1,5 +1,3 @@
-import { filterOnlyId } from '@/store/filters'
-
 const src = [
   { 'id': 'amaz', 'name': 'Amazons of Themyscira' },
   { 'id': 'bane', 'name': 'Bane' },
@@ -22,21 +20,18 @@ const affiliationsModule = {
     _affiliations: src
   },
   mutations: {
-    changeToAffiliation (state, value) {
+    changedToAffiliation (state, value) {
       state._affiliation = value
     }
   },
   actions: {
-    change (context, affiliation) {
-      context.commit('changeToAffiliation', affiliation)
+    changeAffiliationTo (context, affiliation) {
+      context.commit('changedToAffiliation', affiliation)
     }
   },
   getters: {
     all: function (state) {
       return state._affiliations
-    },
-    with: function (state) {
-      return state._affiliations.filter(filterOnlyId(state._affiliation)).shift()
     }
   }
 }

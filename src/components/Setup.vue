@@ -2,9 +2,9 @@
   <div id="setup" class="pure-form">
     <h3>Configure Your Crew</h3>
     <input type="number" name="repLimit" min="0" max="500" list="commonCrewSizes" placeholder="Reputation Limit" autofocus v-model='reputationLimit' />
-    <select v-model='boss'>
-      <option selected disabled>Choose Boss</option>
-      <option v-for="boss in leaders" v-bind:value="boss">{{ boss.alias }} ( {{ boss.origin }} )</option>
+    <select v-model='affiliate'>
+      <option selected disabled>Choose Affiliation</option>
+      <option v-for="affiliation in affiliations" v-bind:value="affiliation">{{ affiliation.name }}</option>
     </select>
     <button type="button" class="pure-button pure-button-primary" v-on:click='start'>Start!</button>
     <datalist id="commonCrewSizes">
@@ -23,19 +23,20 @@ export default {
   name: 'Setup',
   methods: {
     start: function (e) {
-      this.change(this.boss.affiliates[0])
-      this.startCrew({'reputationLimit': this.reputationLimit, 'leader': this.boss})
+      this.changeAffiliationTo(this.affiliate)
+      this.changeReputationTo(this.reputationLimit)
     },
-    ...mapActions(['startCrew', 'change'])
+    ...mapActions(['changeReputationTo', 'changeAffiliationTo'])
   },
   computed: {
     ...mapGetters({
-      leaders: 'bosses'
+      leaders: 'bosses',
+      affiliations: 'all'
     })
   },
   data () {
     return {
-      boss: null,
+      affiliate: null,
       reputationLimit: 0
     }
   }

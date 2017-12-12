@@ -2,6 +2,13 @@
   <div id="selectMembers" class="pure-form">
     <h3>Select Members</h3>
     <p>
+      <select v-model="leader">
+        <option selected disabled>Choose Leader</option>
+        <option v-for="boss in bossData" v-bind:value="boss">{{ boss | origin }}</option>
+      </select>
+      <button type="button" class="pure-button pure-button-primary" v-on:click="addBoss">Add</button>
+    </p>
+    <p>
       <select v-model="sidekick">
         <option selected disabled>Choose Sidekick</option>
         <option v-for="sidekick in sidekicksData" v-bind:value="sidekick">{{ sidekick | origin }}</option>
@@ -26,23 +33,28 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'MemberSelection',
   methods: {
+    addBoss: function (e) {
+      this.addMember(this.leader)
+    },
     addSideKick: function (e) {
-      console.log(this.sidekick)
+      this.addMember(this.sidekick)
     },
     addFreeAgents: function (e) {
-      console.log(this.freeAgents)
+      this.addMember(this.freeAgents)
     },
     addHenchmen: function (e) {
-      console.log(this.henchmen)
-    }
+      this.addMember(this.henchmen)
+    },
+    ...mapActions(['addMember'])
   },
   computed: {
     ...mapGetters({
+      bossData: 'bosses',
       sidekicksData: 'sidekicks',
       freeAgentsData: 'freeAgents',
       henchmenData: 'henchmen'
@@ -52,7 +64,8 @@ export default {
     return {
       freeAgents: [],
       henchmen: [],
-      sidekick: null
+      sidekick: null,
+      leader: null
     }
   },
   filters: {

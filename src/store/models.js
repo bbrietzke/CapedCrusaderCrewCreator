@@ -1,5 +1,7 @@
 
-const notBold = [ 'joker', 'bane', 'cent', 'sirn', 'leag', 'mili', 'frez', 'peng', 'crim', 'ridd', 'owls' ]
+import { sortByName, filterRank, filterAffiliates } from '@/store/filters'
+
+const notBold = [ 'joke', 'bane', 'cent', 'sirn', 'leag', 'mili', 'frez', 'peng', 'crim', 'ridd', 'owls' ]
 
 const src = [
   // { 'id': '', 'rank': '', 'affiliates': [], 'reputation': , 'funding': , 'origin': '', 'alias': '', 'name': '' },
@@ -13,14 +15,14 @@ const src = [
   { 'id': '35DC176', 'rank': 'freeAgent', 'affiliates': ['bold'], 'reputation': 65, 'funding': 100, 'origin': 'Rebirth', 'alias': 'Batgirl', 'name': 'Barbara Gordon' },
   { 'id': '35DC167C', 'rank': 'freeAgent', 'affiliates': ['bold', 'bane', 'cent', 'sirn', 'leag', 'mili', 'frez', 'peng', 'crim', 'ridd', 'owls'], 'reputation': 66, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Catwoman', 'name': 'Selina Kyle' },
   { 'id': '35DC164', 'rank': 'leader', 'affiliates': ['bold'], 'reputation': 150, 'funding': 0, 'origin': 'Rebirth', 'alias': 'Batman', 'name': 'Bruce Wayne' },
-  { 'id': '35DC167A', 'rank': 'leader', 'affiliates': ['joker'], 'reputation': 105, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Joker', 'name': 'Unknown' },
-  { 'id': '35DC167B', 'rank': 'henchman', 'affiliates': ['joker'], 'reputation': 24, 'funding': 200, 'origin': 'Arkham Asylum', 'alias': 'White-Face', 'name': 'Unknown' },
-  { 'id': '35DC167C', 'rank': 'henchman', 'affiliates': ['joker'], 'reputation': 14, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Hobo Clown', 'name': 'Unknown' },
-  { 'id': '35DC167D', 'rank': 'henchman', 'affiliates': ['joker'], 'reputation': 22, 'funding': 200, 'origin': 'Arkham Asylum', 'alias': 'Bouffon', 'name': 'Unknown' },
+  { 'id': '35DC167A', 'rank': 'leader', 'affiliates': ['joke'], 'reputation': 105, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Joker', 'name': 'Unknown' },
+  { 'id': '35DC167B', 'rank': 'henchman', 'affiliates': ['joke'], 'reputation': 24, 'funding': 200, 'origin': 'Arkham Asylum', 'alias': 'White-Face', 'name': 'Unknown' },
+  { 'id': '35DC167C', 'rank': 'henchman', 'affiliates': ['joke'], 'reputation': 14, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Hobo Clown', 'name': 'Unknown' },
+  { 'id': '35DC167D', 'rank': 'henchman', 'affiliates': ['joke'], 'reputation': 22, 'funding': 200, 'origin': 'Arkham Asylum', 'alias': 'Bouffon', 'name': 'Unknown' },
   { 'id': '35DC173', 'rank': 'freeAgent', 'affiliates': notBold, 'reputation': 145, 'funding': 0, 'origin': 'Arkham Origins', 'alias': 'Deathstroke', 'name': 'Slade Wilson' },
   { 'id': '35DC180', 'rank': 'freeAgent', 'affiliates': notBold, 'reputation': 140, 'funding': 200, 'origin': 'Suicide Squad', 'alias': 'Enchantress', 'name': 'June Moone' },
   { 'id': '35DC169A', 'rank': 'leader', 'affiliates': ['sirn'], 'reputation': 101, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Poison Ivy', 'name': 'Dr. Pamela Lillian Isley' },
-  { 'id': '35DC169B', 'rank': 'sidekick', 'affiliates': ['sirn', 'joker'], 'reputation': 68, 'funding': 300, 'origin': 'Arkham Asylum', 'alias': 'Harley Quinn', 'name': 'Dr. Harleen Frances Quinzel' },
+  { 'id': '35DC169B', 'rank': 'sidekick', 'affiliates': ['sirn', 'joke'], 'reputation': 68, 'funding': 300, 'origin': 'Arkham Asylum', 'alias': 'Harley Quinn', 'name': 'Dr. Harleen Frances Quinzel' },
   { 'id': '35DC170A', 'rank': 'henchman', 'affiliates': notBold, 'reputation': 40, 'funding': 0, 'origin': '', 'alias': 'High Security Henchmen', 'name': 'Unknown' },
   { 'id': '35DC170B', 'rank': 'henchman', 'affiliates': notBold, 'reputation': 23, 'funding': 350, 'origin': '', 'alias': 'Prisoner No47905', 'name': 'Carl Grotti' },
   { 'id': '35DC170C', 'rank': 'henchman', 'affiliates': notBold, 'reputation': 18, 'funding': 400, 'origin': '', 'alias': 'Prisoner No04211', 'name': 'Gustaff Gustaffson' },
@@ -29,45 +31,19 @@ const src = [
   { 'id': '35DC016', 'rank': 'freeAgent', 'affiliates': notBold, 'reputation': 69, 'funding': 0, 'origin': 'Arkham City', 'alias': 'The Riddler', 'name': 'Edward Nigma' }
 ]
 
-function sortByName (a, b) {
-  var nameA = a.name.toUpperCase()
-  var nameB = b.name.toUpperCase()
-  if (nameA < nameB) {
-    return -1
-  }
-  if (nameA > nameB) {
-    return 1
-  }
-
-  return 0
-}
-
-function filterRank (rank) {
-  self.rank = rank
-  return function (obj) {
-    return obj.rank === self.rank
-  }
-}
-
-function filterAffiliates (src) {
-  self.src = src
-  return function (obj) {
-    return obj.affiliates.indexOf(src) >= 0
-  }
-}
-
 const modelsModule = {
   state: {
     _models: src
   },
   mutations: {
-    changeToAffiliation (state, value) {
-      state._models = src.filter(filterAffiliates(value)).sort(sortByName)
+    changedToAffiliation (state, value) {
+      state._models = src.filter(filterAffiliates(value.id)).sort(sortByName)
+      console.log(value)
     }
   },
   getters: {
     bosses: function (state) {
-      return src.filter(filterRank('leader'))
+      return state._models.filter(filterRank('leader'))
     },
     sidekicks: function (state) {
       return state._models.filter(filterRank('sidekick'))
