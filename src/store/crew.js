@@ -1,17 +1,17 @@
 
-function validate (model, currentReputation, currentStash) {
-  return new Promise(function (resolve, reject) {
-    if (model.reputation > currentReputation) {
-      reject(new Error(model.alias + '\'s reputation exceeds currently available reputation'))
-      return
-    }
-    if (model.funding > currentStash) {
-      reject(new Error(model.alias + '\'s funding exceeds currently available stash'))
-      return
-    }
-    resolve(model)
-  })
-}
+// function validate (model, currentReputation, currentStash) {
+//   return new Promise(function (resolve, reject) {
+//     if (model.reputation > currentReputation) {
+//       reject(new Error(model.alias + '\'s reputation exceeds currently available reputation'))
+//       return
+//     }
+//     if (model.funding > currentStash) {
+//       reject(new Error(model.alias + '\'s funding exceeds currently available stash'))
+//       return
+//     }
+//     resolve(model)
+//   })
+// }
 
 const crewsModule = {
   state: {
@@ -21,37 +21,38 @@ const crewsModule = {
     _currentStash: 0,
     _leader: null,
     _sidekick: null,
+    _freeAgents: 0,
     _members: [],
     _messages: []
   },
   actions: {
+    addMessage ({commit}, msg) {
+      console.log(msg)
+      commit('addMessage', msg)
+    },
+    clearCurrentMessages ({commit, state}) {
+      commit('clearMessages')
+    },
     changeReputationTo ({commit, state}, reputationLimit) {
       commit('changedToReputation', reputationLimit)
     },
-    addMember ({commit, state}, member) {
-      if (Array.isArray(member)) {
-        for (const m of member) {
-          validate(m, state._currentReputation, state._currentStash).then(function (applicant) {
-            commit('updatedReputationByMember', applicant)
-          }).catch(function (reason) {
-            commit('addMessage', reason.message)
-          })
-        }
-      } else {
-        validate(member, state._currentReputation, state._currentStash).then(function (applicant) {
-          commit('updatedReputationByMember', applicant)
-          if (applicant.rank === 'leader') {
-            commit('addedMemberAsLeader', applicant)
-          }
-        }).catch(function (reason) {
-          commit('addMessage', reason.message)
-        })
-      }
+    removeMember ({commit, state}, member) {
+    },
+    addMember ({commit, state}, applicant) {
+      return new Promise((resolve, reject) => {
+        reject(new Error('broken'))
+      })
     }
   },
   mutations: {
     addedMemberAsLeader (state, newMember) {
       state._leader = newMember
+    },
+    addedMemberAsSidekick (state, newMember) {
+      state._sidekick = newMember
+    },
+    removedMember (state, oldMember) {
+
     },
     addMessage (state, message) {
       state._messages.push(message)
@@ -63,15 +64,22 @@ const crewsModule = {
       state._reputation = parseInt(reputationLimit)
       state._currentReputation = state._reputation
       state._stash = Math.ceil(parseInt(reputationLimit) / 150) * 500
+      state._freeAgents = Math.ceil(parseInt(reputationLimit) / 150)
       state._currentStash = state._stash
     },
     updatedReputationByMember (state, newMember) {
-      state._members.push(newMember)
+      // state._members.push(newMember)
       state._currentReputation = (state._currentReputation - newMember.reputation)
       state._currentStash = (state._currentStash - newMember.funding)
     }
   },
   getters: {
+    leader: function (state) {
+      return state._leader
+    },
+    members: function (state) {
+      return state._members
+    },
     messages: function (state) {
       return state._messages
     },

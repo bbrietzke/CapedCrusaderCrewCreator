@@ -1,17 +1,19 @@
 <template>
-  <div id="buildCrew">
-    <Setup />
-    <MemberSelection />
+  <div id="buildCrew" class="pure-g">
+    <Setup class='pure-u-1-1' />
+    <MemberSelection class='pure-u-1-2' />
+    <Crew class='pure-u-1-2' />
   </div>
 </template>
 
 <script>
 import Setup from '@/components/Setup'
 import MemberSelection from '@/components/MemberSelection'
+import Crew from '@/components/Crew'
 
 export default {
   name: 'BuildCrew',
-  components: { Setup, MemberSelection },
+  components: { Setup, MemberSelection, Crew },
   data () {
     return {
     }

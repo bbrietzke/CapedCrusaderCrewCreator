@@ -40,6 +40,7 @@ export default {
   methods: {
     addBoss: function (e) {
       this.addMember(this.leader)
+        .catch(reason => this.addMessage(reason))
     },
     addSideKick: function (e) {
       this.addMember(this.sidekick)
@@ -50,7 +51,7 @@ export default {
     addHenchmen: function (e) {
       this.addMember(this.henchmen)
     },
-    ...mapActions(['addMember'])
+    ...mapActions(['addMember', 'addMessage'])
   },
   computed: {
     ...mapGetters({

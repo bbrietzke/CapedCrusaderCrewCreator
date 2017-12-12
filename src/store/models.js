@@ -38,7 +38,6 @@ const modelsModule = {
   mutations: {
     changedToAffiliation (state, value) {
       state._models = src.filter(filterAffiliates(value.id)).sort(sortByName)
-      console.log(value)
     }
   },
   getters: {
