@@ -18,12 +18,6 @@
       </li>
     </ul>
     <ul id='crewList'>
-      <li id='leader'>
-        {{ this.leader | origin }}
-      </li>
-      <li v-for="m in members">
-        {{m | origin}}
-      </li>
     </ul>
   </div>
 </template>
@@ -44,7 +38,6 @@ export default {
     },
     ...mapGetters({
       messages: 'messages',
-      leader: 'leader',
       members: 'members',
       currentReputation: 'currentReputation',
       currentStash: 'currentStash'

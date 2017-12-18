@@ -1,11 +1,12 @@
 
-import { sortByName, filterRank, filterAffiliates } from '@/store/filters'
+import { sortByAlias, filterRank, filterAffiliates } from '@/store/filters'
+import { CHANGE_AFFILIATION_TO } from './mutation-types'
 
 const notBold = [ 'joke', 'bane', 'cent', 'sirn', 'leag', 'mili', 'frez', 'peng', 'crim', 'ridd', 'owls' ]
+const quinn = ['sirn', 'joke']
 
 const src = [
   // { 'id': '', 'rank': '', 'affiliates': [], 'reputation': , 'funding': , 'origin': '', 'alias': '', 'name': '' },
-  { 'id': '35DC183', 'rank': 'leader', 'affiliates': ['bold'], 'reputation': 133, 'funding': 0, 'origin': 'Flashpoint', 'alias': 'Batman', 'name': 'Thomas Wayne' },
   { 'id': '35DC166A', 'rank': 'leader', 'affiliates': ['bold'], 'reputation': 125, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Batman', 'name': 'Bruce Wayne' },
   { 'id': '35DC166B', 'rank': 'henchman', 'affiliates': ['bold'], 'reputation': 21, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Arkham Guard 1', 'name': 'Unknown' },
   { 'id': '35DC166C', 'rank': 'henchman', 'affiliates': ['bold'], 'reputation': 26, 'funding': 600, 'origin': 'Arkham Asylum', 'alias': 'Arkham Guard 2', 'name': 'Unknown' },
@@ -22,26 +23,28 @@ const src = [
   { 'id': '35DC173', 'rank': 'freeAgent', 'affiliates': notBold, 'reputation': 145, 'funding': 0, 'origin': 'Arkham Origins', 'alias': 'Deathstroke', 'name': 'Slade Wilson' },
   { 'id': '35DC180', 'rank': 'freeAgent', 'affiliates': notBold, 'reputation': 140, 'funding': 200, 'origin': 'Suicide Squad', 'alias': 'Enchantress', 'name': 'June Moone' },
   { 'id': '35DC169A', 'rank': 'leader', 'affiliates': ['sirn'], 'reputation': 101, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Poison Ivy', 'name': 'Dr. Pamela Lillian Isley' },
-  { 'id': '35DC169B', 'rank': 'sidekick', 'affiliates': ['sirn', 'joke'], 'reputation': 68, 'funding': 300, 'origin': 'Arkham Asylum', 'alias': 'Harley Quinn', 'name': 'Dr. Harleen Frances Quinzel' },
+  { 'id': '35DC169B', 'rank': 'sidekick', 'affiliates': quinn, 'reputation': 68, 'funding': 300, 'origin': 'Arkham Asylum', 'alias': 'Harley Quinn', 'name': 'Dr. Harleen Frances Quinzel' },
   { 'id': '35DC170A', 'rank': 'henchman', 'affiliates': notBold, 'reputation': 40, 'funding': 0, 'origin': '', 'alias': 'High Security Henchmen', 'name': 'Unknown' },
   { 'id': '35DC170B', 'rank': 'henchman', 'affiliates': notBold, 'reputation': 23, 'funding': 350, 'origin': '', 'alias': 'Prisoner No47905', 'name': 'Carl Grotti' },
   { 'id': '35DC170C', 'rank': 'henchman', 'affiliates': notBold, 'reputation': 18, 'funding': 400, 'origin': '', 'alias': 'Prisoner No04211', 'name': 'Gustaff Gustaffson' },
   { 'id': '35DC170D', 'rank': 'henchman', 'affiliates': notBold, 'reputation': 20, 'funding': 0, 'origin': '', 'alias': 'Prisoner No93432', 'name': 'Tyrone Johnson' },
   { 'id': '35DC012', 'rank': 'freeAgent', 'affiliates': notBold, 'reputation': 57, 'funding': 200, 'origin': 'Arkham City', 'alias': 'Scarecrow', 'name': 'Jonathan Crane' },
+  { 'id': '35DC183', 'rank': 'leader', 'affiliates': ['bold'], 'reputation': 133, 'funding': 0, 'origin': 'Flashpoint', 'alias': 'Batman', 'name': 'Thomas Wayne' },
   { 'id': '35DC016', 'rank': 'freeAgent', 'affiliates': notBold, 'reputation': 69, 'funding': 0, 'origin': 'Arkham City', 'alias': 'The Riddler', 'name': 'Edward Nigma' }
 ]
 
 const modelsModule = {
   state: {
-    _models: src
-  },
-  mutations: {
-    changedToAffiliation (state, value) {
-      state._models = src.filter(filterAffiliates(value.id)).sort(sortByName)
-    }
+    _models: src.sort(sortByAlias)
   },
   getters: {
     bosses: function (state) {
+      let leaders = state._models.filter(filterRank('leader'))
+      let sidekicks = state._models.filter(filterRank('sidekick'))
+
+      return leaders.concat(sidekicks).sort(sortByAlias)
+    },
+    leaders: function (state) {
       return state._models.filter(filterRank('leader'))
     },
     sidekicks: function (state) {
@@ -52,6 +55,11 @@ const modelsModule = {
     },
     freeAgents: function (state) {
       return state._models.filter(filterRank('freeAgent'))
+    }
+  },
+  mutations: {
+    [CHANGE_AFFILIATION_TO] (state, value) {
+      state._models = src.filter(filterAffiliates(value.id)).sort(sortByAlias)
     }
   }
 }

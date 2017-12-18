@@ -6,9 +6,9 @@ function filterOnlyId (src) {
   }
 }
 
-function sortByName (a, b) {
-  var nameA = a.name.toUpperCase()
-  var nameB = b.name.toUpperCase()
+function sortByAlias (a, b) {
+  var nameA = a.alias.toUpperCase()
+  var nameB = b.alias.toUpperCase()
   if (nameA < nameB) {
     return -1
   }
@@ -33,4 +33,11 @@ function filterAffiliates (src) {
   }
 }
 
-export { filterOnlyId, sortByName, filterRank, filterAffiliates }
+function findAffiliate (src) {
+  self.src = src
+  return function (obj) {
+    return obj.id === self.src
+  }
+}
+
+export { filterOnlyId, sortByAlias, filterRank, filterAffiliates, findAffiliate }

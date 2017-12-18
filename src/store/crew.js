@@ -1,17 +1,5 @@
 
-// function validate (model, currentReputation, currentStash) {
-//   return new Promise(function (resolve, reject) {
-//     if (model.reputation > currentReputation) {
-//       reject(new Error(model.alias + '\'s reputation exceeds currently available reputation'))
-//       return
-//     }
-//     if (model.funding > currentStash) {
-//       reject(new Error(model.alias + '\'s funding exceeds currently available stash'))
-//       return
-//     }
-//     resolve(model)
-//   })
-// }
+import { SET_AS_BOSS, CHANGE_AFFILIATION_TO } from './mutation-types'
 
 const crewsModule = {
   state: {
@@ -19,62 +7,20 @@ const crewsModule = {
     _currentReputation: 0,
     _stash: 0,
     _currentStash: 0,
-    _leader: null,
+    _boss: null,
     _sidekick: null,
     _freeAgents: 0,
     _members: [],
     _messages: []
   },
   actions: {
-    addMessage ({commit}, msg) {
-      console.log(msg)
-      commit('addMessage', msg)
-    },
-    clearCurrentMessages ({commit, state}) {
-      commit('clearMessages')
-    },
-    changeReputationTo ({commit, state}, reputationLimit) {
-      commit('changedToReputation', reputationLimit)
-    },
-    removeMember ({commit, state}, member) {
-    },
-    addMember ({commit, state}, applicant) {
-    }
-  },
-  mutations: {
-    addedMemberAsLeader (state, newMember) {
-      state._leader = newMember
-    },
-    removedMemberAsLeader (state, member) {
-      state._leader = null
-    },
-    addedMemberAsSidekick (state, newMember) {
-      state._sidekick = newMember
-    },
-    removedMember (state, oldMember) {
-
-    },
-    addMessage (state, message) {
-      state._messages.push(message)
-    },
-    clearMessages (state) {
-      state._messages = []
-    },
-    changedToReputation (state, reputationLimit) {
-      state._reputation = parseInt(reputationLimit)
-      state._currentReputation = state._reputation
-      state._stash = Math.ceil(parseInt(reputationLimit) / 150) * 500
-      state._freeAgents = Math.ceil(parseInt(reputationLimit) / 150)
-      state._currentStash = state._stash
-    },
-    updatedReputationByMember (state, newMember) {
-      state._currentReputation = (state._currentReputation - newMember.reputation)
-      state._currentStash = (state._currentStash - newMember.funding)
+    addAsBoss ({commit, state}, boss) {
+      commit(SET_AS_BOSS, boss)
     }
   },
   getters: {
-    leader: function (state) {
-      return state._leader
+    currentBoss: function (state) {
+      return state._boss
     },
     members: function (state) {
       return state._members
@@ -93,6 +39,14 @@ const crewsModule = {
     },
     currentStash: function (state) {
       return state._currentStash
+    }
+  },
+  mutations: {
+    [SET_AS_BOSS] (state, newBoss) {
+      state._boss = newBoss
+    },
+    [CHANGE_AFFILIATION_TO] (state, value) {
+      console.log('validate that members can work for current affiliation')
     }
   }
 }

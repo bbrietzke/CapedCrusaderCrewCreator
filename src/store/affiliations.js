@@ -1,3 +1,7 @@
+
+import { findAffiliate } from '@/store/filters'
+import { CHANGE_AFFILIATION_TO } from './mutation-types'
+
 const src = [
   { 'id': 'amaz', 'name': 'Amazons of Themyscira' },
   { 'id': 'bane', 'name': 'Bane' },
@@ -16,22 +20,30 @@ const src = [
 
 const affiliationsModule = {
   state: {
-    _affiliation: 'bold',
+    _affiliation: null,
     _affiliations: src
-  },
-  mutations: {
-    changedToAffiliation (state, value) {
-      state._affiliation = value
-    }
   },
   actions: {
     changeAffiliationTo (context, affiliation) {
-      context.commit('changedToAffiliation', affiliation)
+      context.commit(CHANGE_AFFILIATION_TO, affiliation)
+    },
+    changeAffiliationFromBoss (context, affiliations) {
+      let value = src.filter(findAffiliate(affiliations[0]))[0]
+
+      context.commit(CHANGE_AFFILIATION_TO, value)
     }
   },
   getters: {
-    all: function (state) {
+    allAffiliations: function (state) {
       return state._affiliations
+    },
+    currentAffiliation: function (state) {
+      return state._affiliation
+    }
+  },
+  mutations: {
+    [CHANGE_AFFILIATION_TO] (state, value) {
+      state._affiliation = value
     }
   }
 }

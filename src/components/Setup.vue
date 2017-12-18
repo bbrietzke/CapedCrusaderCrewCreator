@@ -1,18 +1,18 @@
 <template>
-  <div id="setup" class="pure-form">
-    <h3>Configure Your Crew</h3>
-    <input type="number" name="repLimit" min="0" max="500" list="commonCrewSizes" placeholder="Reputation Limit" autofocus v-model='reputationLimit' />
-    <select v-model='affiliate'>
-      <option selected disabled>Choose Affiliation</option>
-      <option v-for="affiliation in affiliations" v-bind:value="affiliation">{{ affiliation.name }}</option>
-    </select>
-    <button type="button" class="pure-button pure-button-primary" v-on:click='start'>Start!</button>
-    <datalist id="commonCrewSizes">
-      <option value="150">Quick</option>
-      <option value="250">Small</option>
-      <option value="350">Normal</option>
-      <option value="450">Large</option>
-    </datalist>
+  <div id="setup" class="pure-form pure-form-aligned">
+    <fieldset>Leader and Affiliation</fieldset>
+    <div class='pure-control-group'>
+      <label for='affiliation'>Affiliation</label>
+      <select v-model='affiliation'>
+        <option v-for="aff in allAffiliations" v-bind:value="aff">{{ aff.name }}</option>
+      </select>
+    </div>
+    <div class='pure-control-group'>
+      <label for='affiliation'>Boss</label>
+      <select v-model='boss'>
+        <option v-for="b in bosses" v-bind:value="b">{{ b | origin }}</option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -22,22 +22,41 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Setup',
   methods: {
-    start: function (e) {
-      this.changeAffiliationTo(this.affiliate)
-      this.changeReputationTo(this.reputationLimit)
-    },
-    ...mapActions(['changeReputationTo', 'changeAffiliationTo'])
+    ...mapActions(['changeReputationTo', 'changeAffiliationTo', 'changeAffiliationFromBoss', 'addAsBoss'])
   },
   computed: {
-    ...mapGetters({
-      leaders: 'bosses',
-      affiliations: 'all'
-    })
+    ...mapGetters(['currentAffiliation', 'allAffiliations', 'bosses', 'currentBoss']),
+    affiliation: {
+      get: function () {
+        return this.currentAffiliation
+      },
+      set: function (affiliation) {
+        this.changeAffiliationTo(affiliation)
+      }
+    },
+    boss: {
+      get: function () {
+        return this.currentBoss
+      },
+      set: function (boss) {
+        if (this.currentAffiliation === null) {
+          this.changeAffiliationFromBoss(boss.affiliates)
+        }
+
+        this.addAsBoss(boss)
+      }
+    }
   },
   data () {
-    return {
-      affiliate: null,
-      reputationLimit: 0
+    return { }
+  },
+  filters: {
+    origin: function (value) {
+      if (value === undefined) return null
+      if (value.origin === undefined) return value.alias
+      if (value.origin.length === 0) return value.alias
+
+      return value.alias + ' (' + value.origin + ')'
     }
   }
 }
