@@ -39,14 +39,14 @@ const crewsModule = {
     removeMember ({commit, state}, member) {
     },
     addMember ({commit, state}, applicant) {
-      return new Promise((resolve, reject) => {
-        reject(new Error('broken'))
-      })
     }
   },
   mutations: {
     addedMemberAsLeader (state, newMember) {
       state._leader = newMember
+    },
+    removedMemberAsLeader (state, member) {
+      state._leader = null
     },
     addedMemberAsSidekick (state, newMember) {
       state._sidekick = newMember
@@ -68,7 +68,6 @@ const crewsModule = {
       state._currentStash = state._stash
     },
     updatedReputationByMember (state, newMember) {
-      // state._members.push(newMember)
       state._currentReputation = (state._currentReputation - newMember.reputation)
       state._currentStash = (state._currentStash - newMember.funding)
     }

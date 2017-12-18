@@ -40,7 +40,9 @@ export default {
   methods: {
     addBoss: function (e) {
       this.addMember(this.leader)
-        .catch(reason => this.addMessage(reason))
+        .catch((reason) => {
+          this.addMessage(reason.message)
+        })
     },
     addSideKick: function (e) {
       this.addMember(this.sidekick)
