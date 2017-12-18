@@ -1,5 +1,5 @@
 
-import { SET_AS_BOSS, CHANGE_AFFILIATION_TO } from './mutation-types'
+import { SET_AS_BOSS, CHANGE_AFFILIATION_TO, UPDATE_REPUTATION, UPDATE_STASH } from './mutation-types'
 
 const crewsModule = {
   state: {
@@ -16,6 +16,7 @@ const crewsModule = {
   actions: {
     addAsBoss ({commit, state}, boss) {
       commit(SET_AS_BOSS, boss)
+      commit(UPDATE_REPUTATION, boss.reputation)
     }
   },
   getters: {
@@ -44,6 +45,12 @@ const crewsModule = {
   mutations: {
     [SET_AS_BOSS] (state, newBoss) {
       state._boss = newBoss
+    },
+    [UPDATE_STASH] (state, value) {
+      console.log(value)
+    },
+    [UPDATE_REPUTATION] (state, value) {
+      console.log(value)
     },
     [CHANGE_AFFILIATION_TO] (state, value) {
       console.log('validate that members can work for current affiliation')
