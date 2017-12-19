@@ -2,7 +2,7 @@
 function filterOnlyId (src) {
   self.src = src
   return function (obj) {
-    return obj.id === src
+    return obj.id !== src
   }
 }
 

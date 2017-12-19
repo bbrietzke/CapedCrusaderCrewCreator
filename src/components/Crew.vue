@@ -3,10 +3,10 @@
     <h3>Current Crew</h3>
     <ul class='vitals'>
       <li>
-        {{ currentReputation }} reputation available
+        {{ currentReputation }} reputation used
       </li>
       <li>
-        ${{ currentStash }} funding available
+        ${{ currentStash }} funding expended
       </li>
     </ul>
     <ul id='messaging' v-if='messagesAvailable'>
@@ -18,6 +18,9 @@
       </li>
     </ul>
     <ul id='crewList'>
+      <li v-for='m in members'>
+          {{ m.alias }}
+      </li>
     </ul>
   </div>
 </template>

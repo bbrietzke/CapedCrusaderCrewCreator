@@ -1,5 +1,5 @@
 
-import { SET_AS_BOSS, CHANGE_AFFILIATION_TO, UPDATE_REPUTATION, UPDATE_STASH } from './mutation-types'
+import { SET_AS_BOSS, CHANGE_AFFILIATION_TO, UPDATE_REPUTATION, UPDATE_STASH, REMOVE_BOSS, ADD_MEMBER, REMOVE_MEMBER } from './mutation-types'
 
 const crewsModule = {
   state: {
@@ -15,8 +15,26 @@ const crewsModule = {
   },
   actions: {
     addAsBoss ({commit, state}, boss) {
+      if (state._boss !== null) {
+        commit(UPDATE_REPUTATION, (state._boss.reputation * -1))
+        commit(REMOVE_BOSS, boss)
+      }
+
       commit(SET_AS_BOSS, boss)
       commit(UPDATE_REPUTATION, boss.reputation)
+    },
+    addMember ({commit, state}, applicant) {
+      if (Array.isArray(applicant)) {
+        for (let a of applicant) {
+          commit(UPDATE_REPUTATION, a.reputation)
+          commit(UPDATE_STASH, a.funding)
+          commit(ADD_MEMBER, a)
+        }
+      } else {
+        commit(UPDATE_REPUTATION, applicant.reputation)
+        commit(UPDATE_STASH, applicant.funding)
+        commit(ADD_MEMBER, applicant)
+      }
     }
   },
   getters: {
@@ -46,11 +64,20 @@ const crewsModule = {
     [SET_AS_BOSS] (state, newBoss) {
       state._boss = newBoss
     },
+    [REMOVE_BOSS] (state, boss) {
+      state._boss = null
+    },
+    [ADD_MEMBER] (state, applicant) {
+      state._members.push(applicant)
+    },
+    [REMOVE_MEMBER] (state, member) {
+      console.log('Alias: %d', member.alias)
+    },
     [UPDATE_STASH] (state, value) {
-      console.log(value)
+      state._currentStash = state._currentStash + value
     },
     [UPDATE_REPUTATION] (state, value) {
-      console.log(value)
+      state._currentReputation = state._currentReputation + value
     },
     [CHANGE_AFFILIATION_TO] (state, value) {
       console.log('validate that members can work for current affiliation')
