@@ -57,17 +57,6 @@ export default {
       sidekick: null,
       leader: null
     }
-  },
-  filters: {
-    origin: function (value) {
-      if (value.origin === undefined) return value.alias
-      if (value.origin.length === 0) return value.alias
-
-      return value.alias + ' (' + value.origin + ')'
-    },
-    costs: function (value) {
-      return value.alias + ' (' + value.reputation + '/$' + value.funding + ')'
-    }
   }
 }
 </script>

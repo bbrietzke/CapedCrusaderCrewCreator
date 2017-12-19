@@ -49,15 +49,6 @@ export default {
   },
   data () {
     return { }
-  },
-  filters: {
-    origin: function (value) {
-      if (value === undefined) return null
-      if (value.origin === undefined) return value.alias
-      if (value.origin.length === 0) return value.alias
-
-      return value.alias + ' (' + value.origin + ')'
-    }
   }
 }
 </script>
