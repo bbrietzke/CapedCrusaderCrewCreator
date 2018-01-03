@@ -1,4 +1,6 @@
-import { filterOnlyId } from '@/store/filters'
+
+import { findAffiliate } from '@/store/filters'
+import { CHANGE_AFFILIATION_TO } from './mutation-types'
 
 const src = [
   { 'id': 'amaz', 'name': 'Amazons of Themyscira' },
@@ -13,31 +15,35 @@ const src = [
   { 'id': 'frez', 'name': 'Mr. Freeze' },
   { 'id': 'peng', 'name': 'Penguin' },
   { 'id': 'crim', 'name': 'Organized Crime' },
-  { 'id': 'ridd', 'name': 'Riddler' },
-  { 'id': 'unkn', 'name': 'Unknown' }
+  { 'id': 'ridd', 'name': 'Riddler' }
 ]
 
 const affiliationsModule = {
   state: {
-    _affiliation: 'bold',
+    _affiliation: null,
     _affiliations: src
   },
-  mutations: {
-    changeToAffiliation (state, value) {
-      state._affiliation = value
-    }
-  },
   actions: {
-    change (context, affiliation) {
-      context.commit('changeToAffiliation', affiliation)
+    changeAffiliationTo (context, affiliation) {
+      context.commit(CHANGE_AFFILIATION_TO, affiliation)
+    },
+    changeAffiliationFromBoss (context, affiliations) {
+      let value = src.filter(findAffiliate(affiliations[0]))[0]
+
+      context.commit(CHANGE_AFFILIATION_TO, value)
     }
   },
   getters: {
-    all: function (state) {
+    allAffiliations: function (state) {
       return state._affiliations
     },
-    with: function (state) {
-      return state._affiliations.filter(filterOnlyId(state._affiliation)).shift()
+    currentAffiliation: function (state) {
+      return state._affiliation
+    }
+  },
+  mutations: {
+    [CHANGE_AFFILIATION_TO] (state, value) {
+      state._affiliation = value
     }
   }
 }

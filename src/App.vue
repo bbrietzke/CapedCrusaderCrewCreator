@@ -19,4 +19,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   margin-top: 60px;
 }
+input[type="number"] {
+  width: 200px;
+}
 </style>

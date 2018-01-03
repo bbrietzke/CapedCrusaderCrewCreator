@@ -1,32 +1,19 @@
 <template>
-  <div id="buildCrew">
-    <Setup />
-    <ul>
-    </ul>
+  <div id="buildCrew" class="pure-g">
+    <Setup class='pure-u-1-1' />
+    <MemberSelection class='pure-u-1-2' />
+    <Crew class='pure-u-1-2' />
   </div>
 </template>
 
 <script>
 import Setup from '@/components/Setup'
-import { mapGetters } from 'vuex'
+import MemberSelection from '@/components/MemberSelection'
+import Crew from '@/components/Crew'
 
 export default {
   name: 'BuildCrew',
-  components: { Setup },
-  computed: {
-    current: {
-      get () {
-        return this.$store.state.affiliates.with
-      },
-      set (v) {
-        this.$store.commit('changeToAffiliation', v)
-      }
-    },
-    ...mapGetters({
-      all: 'all',
-      with: 'with'
-    })
-  },
+  components: { Setup, MemberSelection, Crew },
   data () {
     return {
     }
@@ -54,8 +41,5 @@ li {
 
 a {
   color: #42b983;
-}
-input[type="number"] {
-  width: 100px;
 }
 </style>

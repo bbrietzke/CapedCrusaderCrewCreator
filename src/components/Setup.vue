@@ -1,43 +1,54 @@
 <template>
-  <div id="setup" class="pure-form">
-    <h3>Crew Setup</h3>
-    <select v-model="current" autofocus>
-      <option selected disabled>Choose Affiliation</option>
-      <option v-for="affiliation in all" v-bind:value="affiliation.id">{{ affiliation.name }}</option>
-    </select>
-    <input type="number" name="repLimit" min="0" max="500" list="commonCrewSizes" placeholder="Reputation Limit" />
-    <button type="button" class="pure-button pure-button-primary">Start!</button>
-    <datalist id="commonCrewSizes">
-      <option value="150">Quick</option>
-      <option value="250">Small</option>
-      <option value="350">Normal</option>
-      <option value="450">Large</option>
-    </datalist>
+  <div id="setup" class="pure-form pure-form-aligned">
+    <fieldset>Leader and Affiliation</fieldset>
+    <div class='pure-control-group'>
+      <label for='affiliation'>Affiliation</label>
+      <select v-model='affiliation'>
+        <option v-for="aff in allAffiliations" v-bind:value="aff">{{ aff.name }}</option>
+      </select>
+    </div>
+    <div class='pure-control-group'>
+      <label for='affiliation'>Boss</label>
+      <select v-model='boss'>
+        <option v-for="b in bosses" v-bind:value="b">{{ b | origin }}</option>
+      </select>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Setup',
+  methods: {
+    ...mapActions(['changeReputationTo', 'changeAffiliationTo', 'changeAffiliationFromBoss', 'addAsBoss'])
+  },
   computed: {
-    current: {
-      get () {
-        return this.$store.state.affiliates.with
+    ...mapGetters(['currentAffiliation', 'allAffiliations', 'bosses', 'currentBoss']),
+    affiliation: {
+      get: function () {
+        return this.currentAffiliation
       },
-      set (v) {
-        this.$store.commit('changeToAffiliation', v)
+      set: function (affiliation) {
+        this.changeAffiliationTo(affiliation)
       }
     },
-    ...mapGetters({
-      all: 'all',
-      with: 'with'
-    })
+    boss: {
+      get: function () {
+        return this.currentBoss
+      },
+      set: function (boss) {
+        if (this.currentAffiliation === null) {
+          this.changeAffiliationFromBoss(boss.affiliates)
+        }
+
+        this.addAsBoss(boss)
+      }
+    }
   },
   data () {
-    return {
-    }
+    return { }
   }
 }
 </script>
@@ -45,27 +56,5 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #setup {
-}
-label {
-  label { float: left; width: 10em; margin-right: 1em; }
-}
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  margin: 10px;
-}
-
-a {
-  color: #42b983;
-}
-input[type="number"] {
-  width: 200px;
 }
 </style>
