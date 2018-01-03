@@ -13,7 +13,7 @@
     <ul id='crewList' class='pure-g'>
       <li v-for='m in members'>
           <ul v-bind:id='m.id' class='member'>
-            <li class='headshot pure-u-1-1'>{{ m.id }}</li>
+            <li class='headshot pure-u-1-1'><img src='/static/empty_avatar.png' /></li>
             <li class='alias pure-u-1-2'>{{ m.alias }}</li>
             <li class='name pure-u-1-2'>{{ m.name }}</li>
             <li class='reputation pure-u-1-4'>&nbsp;</li>
@@ -72,8 +72,8 @@ ul.member:hover {
 }
 ul.member li.headshot {
   float: left;
-  height: 80px;
-  width: 80px;
+  height: 72px;
+  width: 72px;
 }
 ul.member li.alias {
   font-weight: bolder;
