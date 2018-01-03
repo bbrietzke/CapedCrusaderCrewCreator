@@ -21,6 +21,7 @@ const crewsModule = {
         commit(REMOVE_BOSS, boss)
       }
 
+      if (boss === undefined) return
       commit(SET_AS_BOSS, boss)
       commit(UPDATE_REPUTATION, boss.reputation)
     },
@@ -88,7 +89,10 @@ const crewsModule = {
       state._currentReputation = state._currentReputation + value
     },
     [CHANGE_AFFILIATION_TO] (state, value) {
-      console.log('validate that members can work for current affiliation')
+      state._currentReputation = 0
+      state._currentStash = 0
+      state._members = []
+      state._boss = null
     }
   }
 }

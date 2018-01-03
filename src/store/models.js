@@ -1,11 +1,12 @@
 
 import { sortByAlias, filterRank, filterAffiliates, filterOnlyId } from '@/store/filters'
-import { CHANGE_AFFILIATION_TO, SET_AS_BOSS, ADD_MEMBER, REMOVE_MEMBER, REMOVE_BOSS } from './mutation-types'
+import { CHANGE_AFFILIATION_TO, ADD_MEMBER, REMOVE_MEMBER } from './mutation-types'
 
 const notBold = [ 'joke', 'bane', 'cent', 'sirn', 'leag', 'mili', 'frez', 'peng', 'crim', 'ridd', 'owls' ]
 const croc = [ 'joke', 'cent', 'sirn', 'leag', 'mili', 'frez', 'peng', 'crim', 'ridd', 'owls' ]
 const quinn = ['sirn', 'joke']
 const catWoman = ['bold', 'bane', 'cent', 'sirn', 'leag', 'mili', 'frez', 'peng', 'crim', 'ridd', 'owls']
+const gang = ['crim']
 const bold = ['bold']
 const joker = ['joke']
 const sirens = ['sirn']
@@ -27,7 +28,7 @@ const src = [
   { 'id': '35DC186', 'rank': 'freeAgent', 'affiliates': bold, 'reputation': 118, 'funding': 100, 'origin': 'Ezra Miller', 'alias': 'The Flash', 'name': 'Barry Allen' },
   { 'id': '35DC187', 'rank': 'leader', 'affiliates': bold, 'reputation': 125, 'funding': 0, 'origin': 'Ben Affleck', 'alias': 'Batman', 'name': 'Bruce Wayne' },
   { 'id': '35DC166A', 'rank': 'leader', 'affiliates': bold, 'reputation': 125, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Batman', 'name': 'Bruce Wayne' },
-  { 'id': '35DC166A', 'rank': 'leader', 'affiliates': bold, 'reputation': 115, 'funding': 0, 'origin': 'Knightfall', 'alias': 'Batman', 'name': 'Jean Paul Valley' },
+  { 'id': '35DC182', 'rank': 'leader', 'affiliates': bold, 'reputation': 115, 'funding': 0, 'origin': 'Knightfall', 'alias': 'Batman', 'name': 'Jean Paul Valley' },
   { 'id': '35DC166B', 'rank': 'henchman', 'affiliates': bold, 'reputation': 21, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Arkham Guard 1', 'name': 'Unknown' },
   { 'id': '35DC166C', 'rank': 'henchman', 'affiliates': bold, 'reputation': 26, 'funding': 600, 'origin': 'Arkham Asylum', 'alias': 'Arkham Guard 2', 'name': 'Unknown' },
   { 'id': '35DC166D', 'rank': 'henchman', 'affiliates': bold, 'reputation': 22, 'funding': 100, 'origin': 'Arkham Asylum', 'alias': 'Arkham Guard 3', 'name': 'Unknown' },
@@ -61,20 +62,24 @@ const src = [
   { 'id': '35DC168A', 'rank': 'leader', 'affiliates': bane, 'reputation': 161, 'funding': 0, 'origin': 'Rebirth', 'alias': 'Bane', 'name': 'Unknown' },
   { 'id': '35DC168B', 'rank': 'henchman', 'affiliates': bane, 'reputation': 41, 'funding': 600, 'origin': '', 'alias': 'Elite Ops', 'name': 'Duke' },
   { 'id': '35DC168C', 'rank': 'henchman', 'affiliates': bane, 'reputation': 32, 'funding': 0, 'origin': '', 'alias': 'Stealth Ops', 'name': 'Kabuto' },
-  { 'id': '35DC168D', 'rank': 'henchman', 'affiliates': bane, 'reputation': 44, 'funding': 0, 'origin': '', 'alias': 'Dreadnought Ops', 'name': 'Billy' }
+  { 'id': '35DC168D', 'rank': 'henchman', 'affiliates': bane, 'reputation': 44, 'funding': 0, 'origin': '', 'alias': 'Dreadnought Ops', 'name': 'Billy' },
+  { 'id': '35DC177A', 'rank': 'leader', 'affiliates': gang, 'reputation': 99, 'funding': 0, 'origin': '', 'alias': 'Two-Face', 'name': 'Harvey Dent' },
+  { 'id': '35DC177B', 'rank': 'henchman', 'affiliates': gang, 'reputation': 36, 'funding': 300, 'origin': '', 'alias': 'Tet', 'name': 'Unknown' },
+  { 'id': '35DC177C', 'rank': 'henchman', 'affiliates': gang, 'reputation': 22, 'funding': 300, 'origin': '', 'alias': 'Vov', 'name': 'Unknown' },
+  { 'id': '35DC177D', 'rank': 'henchman', 'affiliates': gang, 'reputation': 23, 'funding': 0, 'origin': '', 'alias': 'Nen', 'name': 'Unknown' },
+  { 'id': '35DC081', 'rank': 'sidekick', 'affiliates': gang, 'reputation': 70, 'funding': 0, 'origin': 'Gotham TV Show', 'alias': 'The Penguin', 'name': 'Oswald Chesterfield Cobblepot' }
 ]
 
 const modelsModule = {
   state: {
-    _models: src.sort(sortByAlias),
-    _boss: []
+    _models: src.sort(sortByAlias)
   },
   getters: {
     bosses: function (state) {
       let leaders = state._models.filter(filterRank('leader'))
       let sidekicks = state._models.filter(filterRank('sidekick'))
 
-      return leaders.concat(sidekicks).concat(state._boss).sort(sortByAlias)
+      return leaders.concat(sidekicks).sort(sortByAlias)
     },
     leaders: function (state) {
       return state._models.filter(filterRank('leader'))
@@ -92,14 +97,6 @@ const modelsModule = {
   mutations: {
     [CHANGE_AFFILIATION_TO] (state, value) {
       state._models = src.filter(filterAffiliates(value.id)).sort(sortByAlias)
-    },
-    [SET_AS_BOSS] (state, applicant) {
-      state._boss.push(applicant)
-      state._models = state._models.filter(filterOnlyId(applicant.id)).sort(sortByAlias)
-    },
-    [REMOVE_BOSS] (state, member) {
-      state._models = state._models.concat(state._boss).sort(sortByAlias)
-      state._boss = []
     },
     [ADD_MEMBER] (state, applicant) {
       state._models = state._models.filter(filterOnlyId(applicant.id)).sort(sortByAlias)
