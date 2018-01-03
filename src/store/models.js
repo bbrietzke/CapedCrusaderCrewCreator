@@ -10,9 +10,16 @@ const bold = ['bold']
 const joker = ['joke']
 const sirens = ['sirn']
 const bane = ['bane']
+const ww = ['amaz', 'bold']
+const amaz = ['amaz']
 
 const src = [
   // { 'id': '', 'rank': '', 'affiliates': [], 'reputation': , 'funding': , 'origin': '', 'alias': '', 'name': '' },
+  { 'id': 'DCUN026A', 'rank': 'leader', 'affiliates': amaz, 'reputation': 190, 'funding': 0, 'origin': '', 'alias': 'Queen Hippolyta', 'name': 'Hippolyta' },
+  { 'id': '35DC161', 'rank': 'sidekick', 'affiliates': ww, 'reputation': 240, 'funding': 0, 'origin': '', 'alias': 'Wonder Woman', 'name': 'Diana Prince' },
+  { 'id': 'DCUN026B', 'rank': 'henchman', 'affiliates': amaz, 'reputation': 54, 'funding': 0, 'origin': '', 'alias': 'Amazon Warrior 1', 'name': 'Unknown' },
+  { 'id': 'DCUN026C', 'rank': 'henchman', 'affiliates': amaz, 'reputation': 52, 'funding': 0, 'origin': '', 'alias': 'Amazon Warrior 2', 'name': 'Unknown' },
+  { 'id': 'DCUN026D', 'rank': 'henchman', 'affiliates': amaz, 'reputation': 54, 'funding': 300, 'origin': '', 'alias': 'Amazon Warrior 3', 'name': 'Unknown' },
   { 'id': '35DC184A', 'rank': 'leader', 'affiliates': bold, 'reputation': 70, 'funding': 0, 'origin': '', 'alias': 'Commisioner Gordon', 'name': 'James W. Gordon' },
   { 'id': '35DC184B', 'rank': 'henchman', 'affiliates': bold, 'reputation': 36, 'funding': 450, 'origin': '', 'alias': 'Lérida', 'name': 'Unknown' },
   { 'id': '35DC184C', 'rank': 'henchman', 'affiliates': bold, 'reputation': 32, 'funding': 200, 'origin': '', 'alias': 'Foxtrot', 'name': 'Unknown' },
@@ -20,6 +27,7 @@ const src = [
   { 'id': '35DC186', 'rank': 'freeAgent', 'affiliates': bold, 'reputation': 118, 'funding': 100, 'origin': 'Ezra Miller', 'alias': 'The Flash', 'name': 'Barry Allen' },
   { 'id': '35DC187', 'rank': 'leader', 'affiliates': bold, 'reputation': 125, 'funding': 0, 'origin': 'Ben Affleck', 'alias': 'Batman', 'name': 'Bruce Wayne' },
   { 'id': '35DC166A', 'rank': 'leader', 'affiliates': bold, 'reputation': 125, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Batman', 'name': 'Bruce Wayne' },
+  { 'id': '35DC166A', 'rank': 'leader', 'affiliates': bold, 'reputation': 115, 'funding': 0, 'origin': 'Knightfall', 'alias': 'Batman', 'name': 'Jean Paul Valley' },
   { 'id': '35DC166B', 'rank': 'henchman', 'affiliates': bold, 'reputation': 21, 'funding': 0, 'origin': 'Arkham Asylum', 'alias': 'Arkham Guard 1', 'name': 'Unknown' },
   { 'id': '35DC166C', 'rank': 'henchman', 'affiliates': bold, 'reputation': 26, 'funding': 600, 'origin': 'Arkham Asylum', 'alias': 'Arkham Guard 2', 'name': 'Unknown' },
   { 'id': '35DC166D', 'rank': 'henchman', 'affiliates': bold, 'reputation': 22, 'funding': 100, 'origin': 'Arkham Asylum', 'alias': 'Arkham Guard 3', 'name': 'Unknown' },
@@ -94,11 +102,12 @@ const modelsModule = {
       state._boss = []
     },
     [ADD_MEMBER] (state, applicant) {
-      console.log('Model :ADD_MEMBER: Alias: %s', applicant.alias)
       state._models = state._models.filter(filterOnlyId(applicant.id)).sort(sortByAlias)
     },
     [REMOVE_MEMBER] (state, member) {
-      console.log('Model :REMOVE_MEMBER: Alias: %s', member.alias)
+      const t = state._models
+      t.push(member)
+      state._models = t.sort(sortByAlias)
     }
   }
 }

@@ -1,5 +1,6 @@
 
 import { SET_AS_BOSS, CHANGE_AFFILIATION_TO, UPDATE_REPUTATION, UPDATE_STASH, REMOVE_BOSS, ADD_MEMBER, REMOVE_MEMBER } from './mutation-types'
+import { sortByAlias } from '@/store/filters'
 
 const crewsModule = {
   state: {
@@ -35,6 +36,11 @@ const crewsModule = {
         commit(UPDATE_STASH, applicant.funding)
         commit(ADD_MEMBER, applicant)
       }
+    },
+    removeMember ({commit, state}, member) {
+      commit(UPDATE_REPUTATION, (member.reputation * -1))
+      commit(UPDATE_STASH, (member.funding * -1))
+      commit(REMOVE_MEMBER, member)
     }
   },
   getters: {
@@ -69,9 +75,11 @@ const crewsModule = {
     },
     [ADD_MEMBER] (state, applicant) {
       state._members.push(applicant)
+      state._members = state._members.sort(sortByAlias)
     },
     [REMOVE_MEMBER] (state, member) {
-      console.log('Alias: %d', member.alias)
+      const index = state._members.indexOf(member)
+      state._members.splice(index, 1)
     },
     [UPDATE_STASH] (state, value) {
       state._currentStash = state._currentStash + value

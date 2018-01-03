@@ -3,7 +3,7 @@
     <h3>Current Crew</h3>
     <ul class='vitals'>
       <li>
-        {{ currentReputation }} reputation used
+        Using {{ currentReputation }} reputation
       </li>
       <li>
         ${{ currentStash }} funding expended
@@ -19,7 +19,12 @@
     </ul>
     <ul id='crewList'>
       <li v-for='m in members'>
-          {{ m.alias }}
+          <ul v-bind:id='m.id' class='member'>
+            <li><span class='alias'>{{ m.alias }}</span> ( {{ m.name }} )</li>
+            <li>{{ m.reputation }}</li>
+            <li>${{ m.funding }}</li>
+            <li><a href='' v-on:click.prevent='removeMember(m)'>remove</a></li>
+          </ul>
       </li>
     </ul>
   </div>
@@ -31,9 +36,9 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Crew',
   methods: {
-    ...mapActions({
-      clearCurrentMessages: 'clearCurrentMessages'
-    })
+    ...mapActions([
+      'removeMember'
+    ])
   },
   computed: {
     messagesAvailable: function () {
@@ -54,5 +59,11 @@ export default {
 
 <style scoped>
 #crew {
+}
+ul.crewList {
+
+}
+span.alias {
+  font-weight: bolder;
 }
 </style>
