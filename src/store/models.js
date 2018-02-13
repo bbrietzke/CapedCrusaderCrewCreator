@@ -67,7 +67,12 @@ const src = [
   { 'id': '35DC177B', 'rank': 'henchman', 'affiliates': gang, 'reputation': 36, 'funding': 300, 'origin': '', 'alias': 'Tet', 'name': 'Unknown' },
   { 'id': '35DC177C', 'rank': 'henchman', 'affiliates': gang, 'reputation': 22, 'funding': 300, 'origin': '', 'alias': 'Vov', 'name': 'Unknown' },
   { 'id': '35DC177D', 'rank': 'henchman', 'affiliates': gang, 'reputation': 23, 'funding': 0, 'origin': '', 'alias': 'Nen', 'name': 'Unknown' },
-  { 'id': '35DC081', 'rank': 'sidekick', 'affiliates': gang, 'reputation': 70, 'funding': 0, 'origin': 'Gotham TV Show', 'alias': 'The Penguin', 'name': 'Oswald Chesterfield Cobblepot' }
+  { 'id': '35DC081', 'rank': 'sidekick', 'affiliates': gang, 'reputation': 70, 'funding': 0, 'origin': 'Gotham TV Show', 'alias': 'The Penguin', 'name': 'Oswald Chesterfield Cobblepot' },
+  { 'id': '35DC190', 'rank': 'freeAgent', 'affiliates': bold, 'reputation': 80, 'funding': 100, 'origin': '', 'alias': 'Raven', 'name': 'Rachel Roth' },
+  { 'id': '35DC191', 'rank': 'leader', 'affiliates': bold, 'reputation': 126, 'funding': 0, 'origin': '', 'alias': 'Green Arrow', 'name': 'Oliver Queen' },
+  { 'id': '35DC192A', 'rank': 'freeAgent', 'affiliates': quinn, 'reputation': 77, 'funding': 300, 'origin': 'Rebirth', 'alias': 'Harley Quinn', 'name': 'Dr. Harleen Frances Quinzel' },
+  { 'id': '35DC192B', 'rank': 'henchman', 'affiliates': joker, 'reputation': 23, 'funding': 0, 'origin': 'Rebirth', 'alias': 'Bud', 'name': 'Unknown' },
+  { 'id': '35DC192C', 'rank': 'henchman', 'affiliates': joker, 'reputation': 20, 'funding': 0, 'origin': 'Rebirth', 'alias': 'Lou', 'name': 'Unknown' }
 ]
 
 const modelsModule = {
