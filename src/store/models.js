@@ -2,6 +2,7 @@
 import { sortByAlias, filterRank, filterAffiliates, filterOnlyId } from '@/store/filters'
 import { CHANGE_AFFILIATION_TO, ADD_MEMBER, REMOVE_MEMBER } from './mutation-types'
 
+const all = [ 'bold', 'joke', 'bane', 'cent', 'sirn', 'leag', 'mili', 'frez', 'peng', 'crim', 'ridd', 'owls' ]
 const notBold = [ 'joke', 'bane', 'cent', 'sirn', 'leag', 'mili', 'frez', 'peng', 'crim', 'ridd', 'owls' ]
 const croc = [ 'joke', 'cent', 'sirn', 'leag', 'mili', 'frez', 'peng', 'crim', 'ridd', 'owls' ]
 const quinn = ['sirn', 'joke']
@@ -70,7 +71,7 @@ const src = [
   { 'id': '35DC081', 'rank': 'sidekick', 'affiliates': gang, 'reputation': 70, 'funding': 0, 'origin': 'Gotham TV Show', 'alias': 'The Penguin', 'name': 'Oswald Chesterfield Cobblepot' },
   { 'id': '35DC190', 'rank': 'freeAgent', 'affiliates': bold, 'reputation': 80, 'funding': 100, 'origin': '', 'alias': 'Raven', 'name': 'Rachel Roth' },
   { 'id': '35DC191', 'rank': 'leader', 'affiliates': bold, 'reputation': 126, 'funding': 0, 'origin': '', 'alias': 'Green Arrow', 'name': 'Oliver Queen' },
-  { 'id': '35DC192A', 'rank': 'freeAgent', 'affiliates': quinn, 'reputation': 77, 'funding': 300, 'origin': 'Rebirth', 'alias': 'Harley Quinn', 'name': 'Dr. Harleen Frances Quinzel' },
+  { 'id': '35DC192A', 'rank': 'freeAgent', 'affiliates': all, 'reputation': 77, 'funding': 300, 'origin': 'Rebirth', 'alias': 'Harley Quinn', 'name': 'Dr. Harleen Frances Quinzel' },
   { 'id': '35DC192B', 'rank': 'henchman', 'affiliates': joker, 'reputation': 23, 'funding': 0, 'origin': 'Rebirth', 'alias': 'Bud', 'name': 'Unknown' },
   { 'id': '35DC192C', 'rank': 'henchman', 'affiliates': joker, 'reputation': 20, 'funding': 0, 'origin': 'Rebirth', 'alias': 'Lou', 'name': 'Unknown' }
 ]

@@ -67,6 +67,6 @@ export default {
 }
 select[multiple] {
   width: 20em;
-  height: 8em;
+  height: 20em;
 }
 </style>
