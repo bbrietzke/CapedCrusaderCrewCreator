@@ -7,7 +7,7 @@ pipeline {
         sh 'npm install'
       }
     }
-    stage('Dependencies') {
+    stage('Unit Tests') {
       steps {
         sh 'npm run unit'
       }
