@@ -2,7 +2,7 @@ pipeline {
   agent {
       docker {
           image 'node:10-alpine'
-          args '-p 9000:9000 -p 9876:9876 --rm'
+          args '-p 9000:9000 -p 8910:8910 -p 9876:9876 --rm'
       }
   }
 
